@@ -7,7 +7,7 @@ import {
 } from "../types/api";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api",
 });
 
 export const api = {

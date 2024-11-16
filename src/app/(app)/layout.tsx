@@ -18,10 +18,14 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Lamide - Modern Blog Platform",
+  title: {
+    default: "Lamide - Modern Blog Platform",
+    template: "%s - Lamide",
+  },
   description: "A beautiful space for sharing stories and ideas",
 };
 
+export const dynamic = "force-dynamic";
 export default function RootLayout({
   children,
 }: Readonly<{

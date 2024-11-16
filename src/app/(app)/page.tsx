@@ -12,16 +12,29 @@ import { api } from "@/lib/axios";
 import { Post, Category } from "@/types/api";
 
 async function getLatestPosts(): Promise<Post[]> {
-  const res = await api.getLatestPosts(3);
-  return res.data.docs;
+  try {
+    const res = await api.getLatestPosts(3);
+    return res.data.docs;
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    return []; // Return empty array as fallback
+  }
 }
 
 async function getCategories(): Promise<Category[]> {
-  const res = await api.getCategories();
-  return res.data.docs;
+  try {
+    const res = await api.getCategories();
+    return res.data.docs;
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return []; // Return empty array as fallback
+  }
 }
 
 function LatestPosts({ posts }: { posts: Post[] }) {
+  if (!posts.length) {
+    return <div>No posts available</div>;
+  }
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {posts.map((post) => (
@@ -55,6 +68,9 @@ function LatestPosts({ posts }: { posts: Post[] }) {
 }
 
 function Categories({ categories }: { categories: Category[] }) {
+  if (!categories.length) {
+    return <div>No categories available</div>;
+  }
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
       {categories.map((category) => (
