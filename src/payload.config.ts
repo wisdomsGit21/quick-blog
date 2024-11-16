@@ -10,6 +10,7 @@ import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
 import Categories from "./collections/Categories";
 import Posts from "./collections/Posts";
+import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -33,7 +34,14 @@ export default buildConfig({
     },
   }),
   sharp,
-  plugins: [
-    // storage-adapter-placeholder
-  ],
+  plugins: process.env.BLOB_READ_WRITE_TOKEN
+    ? [
+        vercelBlobStorage({
+          collections: {
+            [Media.slug]: true,
+          },
+          token: process.env.BLOB_READ_WRITE_TOKEN || "",
+        }),
+      ]
+    : [],
 });
